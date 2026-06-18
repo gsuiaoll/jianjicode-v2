@@ -83,8 +83,6 @@ const jianjicodePlugin: Plugin = async (_input: PluginInput) => {
     { mod: () => import("./tools/video/set-edit-phase.js"), name: "SetEditPhaseTool" },
     // Semantic edit
     { mod: () => import("./tools/video/semantic-edit/index.js"), name: "SemanticEditTool" },
-    // Manim
-    { mod: () => import("./tools/manim/manim_code_agent.js"), name: "ManimCodeAgentTool" },
     // Media
     { mod: () => import("./tools/media/fetch_media.js"), name: "FetchMediaTool" },
   ]
