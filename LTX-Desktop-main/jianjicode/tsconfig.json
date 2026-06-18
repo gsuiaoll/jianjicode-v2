@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "noEmitOnError": false,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "types": ["bun", "node"],
+    "paths": {
+      "@opencode-ai/util/error": ["./ai/util/error.ts"],
+      "@opencode-ai/util/log": ["./ai/util/log.ts"],
+      "@opencode-ai/util/filesystem": ["./ai/util/filesystem.ts"],
+      "@/util/proxied": ["./ai/util/proxied.ts"],
+      "@/bun": ["./ai/bun/index.ts"],
+      "@/bun/registry": ["./ai/bun/registry.ts"],
+      "@/installation": ["./ai/installation.ts"],
+      "@/account": ["./ai/account.ts"],
+      "@/bus": ["./ai/bus/index.ts"],
+      "@/bus/global": ["./ai/bus/global.ts"],
+      "@/util/iife": ["./ai/util/iife.ts"],
+      "@/util/process": ["./ai/util/process.ts"],
+      "@/util/lock": ["./ai/util/lock.ts"],
+      "@/util/filesystem": ["./ai/util/filesystem.ts"],
+      "@/project/instance": ["./ai/project/instance.ts"],
+      "@/flag/flag": ["./ai/flag/flag.ts"],
+      "@/global": ["./ai/global.ts"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "src/ai/adapters/**/*", "src/cv/adapters/**/*", "src/cv/pipelines/**/*", "src/ltx-export/**/*"]
+}

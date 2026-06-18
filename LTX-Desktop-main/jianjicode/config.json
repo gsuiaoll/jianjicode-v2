@@ -1,0 +1,21 @@
+{
+  "ffmpeg": {
+    "path": "resources/ffmpeg/win32/ffmpeg.exe",
+    "ffprobePath": "resources/ffmpeg/win32/ffprobe.exe"
+  },
+  "deepseek": {
+    "apiKey": "",
+    "baseURL": "https://api.deepseek.com/v1"
+  },
+  "dashscope": {
+    "apiKey": "",
+    "baseURL": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    "model": "qwen3.5-omni-flash"
+  },
+  "permissions": {
+    "defaultAction": "allow",
+    "rules": [
+      { "target": "tool:call", "pattern": "*", "action": "allow", "priority": 100 }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+out/
+.env
+*.log
+.DS_Store
+Thumbs.db
+.bun/
+jianjicode/resources/ffmpeg/win32/*.exe
+# 大文件 — 超过 GitHub 100MB 限制
+**/claude.exe
+**/*.exe

@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+
+import { spawnSync } from "child_process"
+import fs from "fs"
+import path from "path"
+import os from "os"
+import { fileURLToPath } from "url"
+
+function run(target) {
+  let executable = target
+  let args = process.argv.slice(2)
+
+  // If target is a .js file, run it with node
+  if (target.endsWith('.js')) {
+    executable = 'node'
+    args = [target, ...args]
+  }
+
+  const result = spawnSync(executable, args, {
+    stdio: "inherit",
+  })
+  if (result.error) {
+    console.error(result.error.message)
+    process.exit(1)
+  }
+  const code = typeof result.status === "number" ? result.status : 0
+  process.exit(code)
+}
+
+const scriptPath = fs.realpathSync(fileURLToPath(import.meta.url))
+const scriptDir = path.dirname(scriptPath)
+
+// Look for binary in node_modules
+function findBinary(startDir) {
+  let current = startDir
+  for (;;) {
+    const modules = path.join(current, "node_modules")
+    if (fs.existsSync(modules)) {
+      const candidate = path.join(modules, "jianjicode", "bin", "jianjicode")
+      if (fs.existsSync(candidate)) return candidate
+    }
+    // Also check for dist/index.js or dist/src/index.js in the project root
+    const distIndex = path.join(current, "dist", "index.js")
+    if (fs.existsSync(distIndex)) {
+      return distIndex
+    }
+    const distSrcIndex = path.join(current, "dist", "src", "index.js")
+    if (fs.existsSync(distSrcIndex)) {
+      return distSrcIndex
+    }
+    const parent = path.dirname(current)
+    if (parent === current) {
+      return
+    }
+    current = parent
+  }
+}
+
+const resolved = findBinary(scriptDir)
+if (!resolved) {
+  console.error(
+    "It seems that your package manager failed to install jianjicode. Please install dependencies first.",
+  )
+  process.exit(1)
+}
+
+run(resolved)

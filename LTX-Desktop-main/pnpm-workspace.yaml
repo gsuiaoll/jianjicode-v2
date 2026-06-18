@@ -1,0 +1,7 @@
+allowBuilds:
+  electron: true
+  electron-winstaller: true
+  esbuild: true
+  iconv-corefoundation: true
+
+minimumReleaseAgeExclude: '[marked]'

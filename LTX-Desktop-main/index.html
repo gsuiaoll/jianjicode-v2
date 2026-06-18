@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>JianJi Code</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <div id="root"></div>
+    <!-- Mock electronAPI for browser-based UI review (only when not in Electron) -->
+    <script>
+      if (!window.electronAPI) {
+        window.__BROWSER_PREVIEW__ = true
+        const noop = () => {}
+        const noopUnsub = () => {}
+        window.electronAPI = {
+          getBackend: async () => ({ url: 'http://localhost:3001', token: '' }),
+          getJianjicode: async () => ({ url: 'http://localhost:3002', token: '' }),
+          checkPythonReady: async () => ({ ready: true }),
+          startPythonBackend: async () => {},
+          checkFirstRun: async () => ({ needsSetup: false, needsLicense: false }),
+          completeSetup: async () => true,
+          acceptLicense: async () => true,
+          openLtxApiKeyPage: noop,
+          openFalApiKeyPage: noop,
+          fetchLicenseText: async () => 'JianJi Code License (preview mode)',
+          getResourcePath: async () => '',
+          onBackendHealthStatus: () => noopUnsub,
+          getBackendHealthStatus: async () => ({ status: 'alive' }),
+          showOpenFileDialog: async () => [],
+          getAppInfo: async () => ({ version: '1.0.0-preview', isPackaged: false, modelsPath: '', userDataPath: '' }),
+          getAnalyticsState: async () => ({ analyticsEnabled: false, installationId: 'browser-preview' }),
+          getProjectAssetsPath: async () => '',
+          setAnalyticsEnabled: async () => {},
+          sendAnalyticsEvent: async () => {},
+          getNoticesText: async () => 'Third-party notices (preview mode)',
+          openProjectAssetsPathChangeDialog: async () => null,
+          getLogs: async () => ({ logPath: '', lines: [] }),
+          getLogPath: async () => ({ logPath: '', logDir: '' }),
+          openLogFolder: noop,
+          onPythonSetupProgress: () => noopUnsub,
+          removePythonSetupProgress: noop,
+          startPythonSetup: async () => {},
+          extractVideoFrame: async () => ({ path: '', url: '' }),
+          checkFilesExist: async () => ({}),
+          showOpenDirectoryDialog: async () => null,
+          searchDirectoryForFiles: async () => ({}),
+          showSaveDialog: async () => null,
+          saveFile: async () => ({ success: true }),
+          saveBinaryFile: async () => ({ success: true }),
+          getModelsPath: async () => '',
+          getDownloadsPath: async () => '',
+          readLocalFile: async (filePath: string) => ({ data: '', mimeType: 'application/octet-stream' }),
+          writeLog: async () => {},
+          openModelsDirChangeDialog: async () => null,
+          copyToProjectAssets: async (_src: string, _projectId: string, _projectName?: string) => ({ success: true }),
+          generateThumbnail: async (_videoUrl: string, _projectDir: string) => ({ path: '', url: '' }),
+          showItemInFolder: async () => {},
+          openParentFolderOfFile: async () => {},
+          exportNative: async () => ({ success: false, error: 'Export not available in browser preview' }),
+          exportCancel: async () => ({ ok: true }),
+          platform: 'browser',
+        }
+      }
+    </script>
+    <script type="module" src="/frontend/main.tsx"></script>
+  </body>
+</html>

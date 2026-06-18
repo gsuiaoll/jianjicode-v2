@@ -1,0 +1,24 @@
+{
+  "name": "jianjicode",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "AI-powered video editing plugin for OpenCode — FFmpeg tools + semantic editing + Manim generation",
+  "main": "./src/plugin.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "bun test --timeout 30000"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": "*"
+  },
+  "dependencies": {
+    "@ai-sdk/openai": "^3.0.73",
+    "@volcengine/tos-sdk": "^2.9.1",
+    "ai": "^6.0.208",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0"
+  }
+}

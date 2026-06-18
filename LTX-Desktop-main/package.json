@@ -1,0 +1,74 @@
+{
+  "name": "ltx-desktop",
+  "version": "1.0.2",
+  "description": "LTX-2 Video Generation - Desktop App",
+  "type": "commonjs",
+  "main": "dist-electron/main.js",
+  "author": {
+    "name": "Lightricks",
+    "email": "ltx-desktop-dev@lightricks.com"
+  },
+  "homepage": "https://github.com/Lightricks/LTX-Desktop",
+  "license": "Apache-2.0",
+  "private": true,
+  "packageManager": "pnpm@10.30.3",
+  "scripts": {
+    "setup:dev": "node scripts/run-script.js scripts/setup-dev",
+    "dev": "node -e \"delete process.env.ELECTRON_RUN_AS_NODE;require('child_process').spawn('npx',['vite'],{stdio:'inherit',shell:true,env:process.env})\"",
+    "dev:debug": "node -e \"delete process.env.ELECTRON_RUN_AS_NODE;process.env.BACKEND_DEBUG='1';process.env.ELECTRON_DEBUG='1';require('child_process').spawn('npx',['vite'],{stdio:'inherit',shell:true,env:process.env})\"",
+    "typecheck": "concurrently \"pnpm run typecheck:ts\" \"pnpm run typecheck:py\"",
+    "typecheck:ts": "tsc --noEmit",
+    "typecheck:py": "cd backend && uv run pyright",
+    "backend:test": "cd backend && uv sync --frozen --extra test --extra dev && uv run pytest -v --tb=short",
+    "build": "node scripts/run-script.js scripts/local-build",
+    "build:skip-python": "node scripts/run-script.js scripts/local-build --skip-python",
+    "build:fast": "node scripts/run-script.js scripts/local-build --unpack --skip-python",
+    "prepare:python": "node scripts/run-script.js scripts/prepare-python",
+    "build:frontend": "vite build",
+    "start:unpacked:mac": "open release/mac-arm64/JianJi\\ Code.app",
+    "start:unpacked:win": "powershell -Command \"& '.\\release\\win-unpacked\\JianJi Code.exe'\""
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "electron-updater": "^6.8.3",
+    "highlight.js": "11.11.1",
+    "js-yaml": "^4.1.1",
+    "lucide-react": "^0.400.0",
+    "marked": "18.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-dropzone": "^14.2.3",
+    "react-markdown": "10.1.0",
+    "rehype-highlight": "7.0.2",
+    "remark-gfm": "4.0.1",
+    "remend": "1.3.0",
+    "tailwind-merge": "^2.3.0"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.7.7",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.19",
+    "concurrently": "^8.2.2",
+    "cross-env": "^10.1.0",
+    "electron": "^41.0.2",
+    "electron-builder": "^26.8.1",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.4.5",
+    "vite": "^7.3.1",
+    "vite-plugin-electron": "^0.29.1",
+    "vite-plugin-electron-renderer": "^0.14.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "minimatch": "^10.2.3",
+      "rollup": "^4.59.0",
+      "tar": "^7.5.11"
+    }
+  }
+}

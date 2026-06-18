@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' http://localhost:* ws://localhost:*; media-src 'self' file: blob:; img-src 'self' data: file: blob:;">
+  <title>jianjicode</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #0f0f1a;
+      --bg-panel: #1a1a2e;
+      --bg-input: #252540;
+      --accent: #6366f1;
+      --accent-hover: #818cf8;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --border: #334155;
+      --success: #22c55e;
+      --error: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-title h1 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .header-title .version {
+      font-size: 12px;
+      color: var(--text-secondary);
+      background: var(--bg-input);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background: var(--bg-input);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+
+    .main-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .video-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-dark);
+      min-width: 0;
+    }
+
+    .video-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      position: relative;
+    }
+
+    .video-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      color: var(--text-secondary);
+    }
+
+    .video-placeholder svg {
+      width: 64px;
+      height: 64px;
+      opacity: 0.5;
+    }
+
+    .video-placeholder p {
+      font-size: 14px;
+    }
+
+    .video-placeholder kbd {
+      background: var(--bg-input);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    video {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .video-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 20px;
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border);
+    }
+
+    .control-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .control-btn:hover {
+      background: var(--bg-input);
+    }
+
+    .control-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .timeline {
+      flex: 0 0 120px;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border);
+    }
+
+    .timeline-track {
+      flex: 1;
+      position: relative;
+      margin: 8px 20px;
+      background: var(--bg-input);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .timeline-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background: var(--accent);
+      opacity: 0.3;
+      border-radius: 4px;
+    }
+
+    .timeline-playhead {
+      position: absolute;
+      top: -4px;
+      width: 2px;
+      height: calc(100% + 8px);
+      background: var(--accent);
+      transform: translateX(-50%);
+    }
+
+    .timeline-time {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 20px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .sidebar {
+      width: 380px;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-panel);
+      border-left: 1px solid var(--border);
+    }
+
+    .sidebar-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-tab {
+      flex: 1;
+      padding: 12px 16px;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sidebar-tab.active {
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .sidebar-tab:hover:not(.active) {
+      color: var(--text-primary);
+    }
+
+    .sidebar-content {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .chat-message {
+      display: flex;
+      gap: 10px;
+      max-width: 100%;
+    }
+
+    .chat-message.user {
+      flex-direction: row-reverse;
+    }
+
+    .chat-message .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 14px;
+    }
+
+    .chat-message.user .avatar {
+      background: var(--accent);
+      color: white;
+    }
+
+    .chat-message.assistant .avatar {
+      background: var(--bg-input);
+      color: var(--text-primary);
+    }
+
+    .chat-message .content {
+      background: var(--bg-input);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 85%;
+    }
+
+    .chat-message.user .content {
+      background: var(--accent);
+    }
+
+    .chat-message .tool-calls {
+      margin-top: 8px;
+      padding: 8px;
+      background: var(--bg-dark);
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    .tool-call {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 0;
+      color: var(--text-secondary);
+    }
+
+    .tool-call .icon {
+      width: 16px;
+      height: 16px;
+      color: var(--accent);
+    }
+
+    .tool-call.executing {
+      color: var(--warning);
+    }
+
+    .tool-call.success {
+      color: var(--success);
+    }
+
+    .tool-call.error {
+      color: var(--error);
+    }
+
+    .message-marker {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 8px;
+      flex-shrink: 0;
+      background: var(--text-secondary);
+    }
+
+    .message-marker.user {
+      background: var(--accent);
+    }
+
+    .message-marker.assistant {
+      background: var(--success);
+    }
+
+    .message-marker.system {
+      background: var(--warning);
+    }
+
+    .message-marker.tool {
+      background: var(--accent);
+    }
+
+    .thought-time {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .thought-time svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .code-path {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      margin: 2px 0;
+    }
+
+    .tool-action {
+      display: inline-block;
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--success);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 6px;
+    }
+
+    .message-content {
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .typing-indicator-dots {
+      display: flex;
+      gap: 4px;
+      padding: 8px 12px;
+    }
+
+    .typing-indicator-dots span {
+      width: 8px;
+      height: 8px;
+      background: var(--text-secondary);
+      border-radius: 50%;
+      animation: typing-bounce 1.4s infinite ease-in-out both;
+    }
+
+    .typing-indicator-dots span:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    .typing-indicator-dots span:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+
+    @keyframes typing-bounce {
+
+      0%,
+      80%,
+      100% {
+        transform: scale(0.6);
+        opacity: 0.5;
+      }
+
+      40% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .option-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .option-modal {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      width: 90%;
+      max-width: 480px;
+      animation: slideUp 0.2s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .option-modal-title {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .option-modal-question {
+      font-size: 16px;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .option-item:hover {
+      border-color: var(--accent);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .option-item.selected {
+      border-color: var(--accent);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .option-letter {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .option-text {
+      font-size: 14px;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    .option-modal-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .option-modal-btn {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .option-modal-btn.primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .option-modal-btn.primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .option-modal-btn.secondary {
+      background: var(--bg-input);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .option-modal-btn.secondary:hover {
+      background: var(--border);
+    }
+
+    .streaming-content {
+      display: inline;
+    }
+
+    .streaming-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 16px;
+      background: var(--text-secondary);
+      animation: blink 1s infinite;
+      margin-left: 2px;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+
+      0%,
+      50% {
+        opacity: 1;
+      }
+
+      51%,
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .chat-input-container {
+      padding: 16px;
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border);
+    }
+
+    .chat-input-wrapper {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 12px 16px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 14px;
+      resize: none;
+      min-height: 44px;
+      max-height: 120px;
+      font-family: inherit;
+    }
+
+    .chat-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .chat-input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .send-btn {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .send-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    .send-btn:disabled {
+      background: var(--border);
+      cursor: not-allowed;
+    }
+
+    .send-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .tools-panel {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .tools-panel.active {
+      display: flex;
+    }
+
+    .tools-section {
+      margin-bottom: 20px;
+    }
+
+    .tools-section h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .tool-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 16px 12px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tool-btn:hover {
+      border-color: var(--accent);
+      background: var(--bg-dark);
+    }
+
+    .tool-btn svg {
+      width: 24px;
+      height: 24px;
+      color: var(--accent);
+    }
+
+    .tool-btn span {
+      font-size: 12px;
+    }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 20px;
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .status-left,
+    .status-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
+    .status-dot.error {
+      background: var(--error);
+    }
+
+    .status-dot.warning {
+      background: var(--warning);
+    }
+
+    .empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      padding: 40px;
+      text-align: center;
+    }
+
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .empty-state small {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading {
+      animation: spin 1s linear infinite;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-secondary);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-container">
+    <header class="header">
+      <div class="header-title">
+        <h1>jianjicode</h1>
+        <span class="version">v0.1.0</span>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="openFileBtn">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+          </svg>
+          打开文件
+        </button>
+        <button class="btn btn-primary" id="aiAssistantBtn">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2a10 10 0 0110 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z" />
+            <path d="M12 8v4m0 4h.01" />
+          </svg>
+          AI 助手
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="video-panel">
+        <div class="video-container" id="videoContainer">
+          <div class="video-placeholder" id="videoPlaceholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="2" />
+              <path d="M10 8l6 4-6 4V8z" />
+            </svg>
+            <p>拖拽视频文件到此处或点击 <kbd>Ctrl+O</kbd> 打开</p>
+          </div>
+          <video id="videoPlayer" style="display: none;"></video>
+        </div>
+
+        <div class="video-controls" id="videoControls" style="display: none;">
+          <button class="control-btn" id="playPauseBtn" title="播放/暂停">
+            <svg viewBox="0 0 24 24" fill="currentColor" id="playIcon">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </button>
+          <button class="control-btn" id="stopBtn" title="停止">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <rect x="6" y="6" width="12" height="12" />
+            </svg>
+          </button>
+          <button class="control-btn" id="skipBackBtn" title="后退5秒">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+            </svg>
+          </button>
+          <button class="control-btn" id="skipForwardBtn" title="前进5秒">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z" />
+            </svg>
+          </button>
+          <div style="flex: 1;"></div>
+          <button class="control-btn" id="muteBtn" title="静音">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="volumeIcon">
+              <path d="M11 5L6 9H2v6h4l5 4V5z" />
+              <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="timeline" id="timeline" style="display: none;">
+          <div class="timeline-track" id="timelineTrack">
+            <div class="timeline-progress" id="timelineProgress"></div>
+            <div class="timeline-playhead" id="timelinePlayhead" style="left: 0%;"></div>
+          </div>
+          <div class="timeline-time">
+            <span id="currentTime">00:00:00</span>
+            <span id="duration">00:00:00</span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <div class="sidebar-tabs">
+          <button class="sidebar-tab active" data-tab="chat">AI 聊天</button>
+          <button class="sidebar-tab" data-tab="tools">工具箱</button>
+        </div>
+
+        <div class="sidebar-content">
+          <div class="chat-container" id="chatContainer">
+            <div class="chat-messages" id="chatMessages">
+              <div class="empty-state">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <p>开始与 AI 助手对话</p>
+                <small>例如："帮我剪辑视频的前10秒" 或 "给视频添加字幕"</small>
+              </div>
+            </div>
+
+            <div class="chat-input-container">
+              <div class="chat-input-wrapper">
+                <textarea class="chat-input" id="chatInput" placeholder="输入消息..." rows="1"></textarea>
+                <button class="send-btn" id="sendBtn" disabled>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tools-panel" id="toolsPanel">
+            <div class="tools-section">
+              <h3>基础剪辑</h3>
+              <div class="tools-grid">
+                <button class="tool-btn" data-tool="trim">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 6h12v12H6z" />
+                    <path d="M6 2v4M18 2v4M6 18v4M18 18v4" />
+                  </svg>
+                  <span>剪辑</span>
+                </button>
+                <button class="tool-btn" data-tool="concat">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                  <span>合并</span>
+                </button>
+                <button class="tool-btn" data-tool="convert">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4v5h5M20 20v-5h-5" />
+                    <path d="M20.49 9A9 9 0 005.64 5.64L4 9m16 6l-1.64 3.36A9 9 0 013.51 15" />
+                  </svg>
+                  <span>转换</span>
+                </button>
+                <button class="tool-btn" data-tool="speed">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
+                  </svg>
+                  <span>变速</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="tools-section">
+              <h3>音频处理</h3>
+              <div class="tools-grid">
+                <button class="tool-btn" data-tool="extract_audio">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18V5l12-2v13" />
+                    <circle cx="6" cy="18" r="3" />
+                    <circle cx="18" cy="16" r="3" />
+                  </svg>
+                  <span>提取音频</span>
+                </button>
+                <button class="tool-btn" data-tool="merge_audio">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="4" y="4" width="16" height="16" rx="2" />
+                    <path d="M9 9h6v6H9z" />
+                  </svg>
+                  <span>混音</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="tools-section">
+              <h3>高级效果</h3>
+              <div class="tools-grid">
+                <button class="tool-btn" data-tool="subtitle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="14" width="20" height="6" rx="2" />
+                    <path d="M6 14V9M18 14V9M10 14V10M14 14V10" />
+                  </svg>
+                  <span>字幕</span>
+                </button>
+                <button class="tool-btn" data-tool="filter">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                  </svg>
+                  <span>滤镜</span>
+                </button>
+                <button class="tool-btn" data-tool="watermark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                  </svg>
+                  <span>水印</span>
+                </button>
+                <button class="tool-btn" data-tool="transition">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                  <span>转场</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="status-bar">
+      <div class="status-left">
+        <div class="status-item">
+          <span class="status-dot" id="serverStatus"></span>
+          <span id="serverStatusText">连接中...</span>
+        </div>
+        <div class="status-item" id="fileInfo" style="display: none;">
+          <span id="fileName">-</span>
+        </div>
+      </div>
+      <div class="status-right">
+        <div class="status-item">
+          <span id="videoInfo">-</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="./renderer.js"></script>
+</body>
+
+</html>

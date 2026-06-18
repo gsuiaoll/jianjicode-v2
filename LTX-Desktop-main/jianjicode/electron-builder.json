@@ -1,0 +1,58 @@
+{
+  "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  "appId": "com.jianjicode.app",
+  "productName": "jianjicode",
+  "copyright": "Copyright © 2024 jianjicode",
+  "directories": {
+    "output": "release",
+    "buildResources": "resources"
+  },
+  "files": [
+    "dist/**/*",
+    "dist-electron/**/*",
+    "jianjicode/**/*",
+    "!jianjicode/**/*.test.ts",
+    "!jianjicode/**/__tests__/**",
+    "!jianjicode/**/node_modules/**"
+  ],
+  "extraResources": [
+    {
+      "from": "jianjicode",
+      "to": "jianjicode",
+      "filter": [
+        "**/*",
+        "!node_modules/**",
+        "!**/*.ts",
+        "!**/*.test.ts",
+        "!**/__tests__/**"
+      ]
+    }
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      }
+    ],
+    "artifactName": "${productName}-${version}-Setup.${ext}"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "deleteAppDataOnUninstall": false,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "jianjicode"
+  },
+  "asar": true,
+  "asarUnpack": [
+    "**/*.node",
+    "**/ffmpeg-static/**"
+  ],
+  "electronDownload": {
+    "mirror": "https://npmmirror.com/mirrors/electron/"
+  },
+  "publish": null
+}

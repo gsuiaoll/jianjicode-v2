@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2020",
+    "strict": true,
+    "outDir": "dist-electron",
+    "rootDir": "electron",
+    "esModuleInterop": true
+  },
+  "include": ["electron/**/*.ts"]
+}

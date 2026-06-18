@@ -1,0 +1,410 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────
+   ANIMATION SYSTEM — AI Chat Enhancements
+   ───────────────────────────────────────── */
+
+/* Fade Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Scale Animations */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes scaleOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.9); }
+}
+
+/* Pulse Animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(43, 97, 255, 0.4); }
+  50% { opacity: 0.8; transform: scale(1.1); box-shadow: 0 0 0 8px rgba(43, 97, 255, 0); }
+}
+
+@keyframes pulseDotSuccess {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  50% { opacity: 0.8; transform: scale(1.1); box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+}
+
+@keyframes pulseDotError {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { opacity: 0.8; transform: scale(1.1); box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+@keyframes pulseDotWarning {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+  50% { opacity: 0.8; transform: scale(1.1); box-shadow: 0 0 0 8px rgba(251, 191, 36, 0); }
+}
+
+/* Sparkle / Success Animations */
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1) rotate(180deg); }
+}
+
+@keyframes sparkleFade {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+@keyframes confetti {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+}
+
+/* Bounce Animations */
+@keyframes bounceIn {
+  0% { opacity: 0; transform: scale(0.3); }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Slide Animations */
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+/* Skeleton / Loading Animations */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Progress Animations */
+@keyframes progressStripes {
+  from { background-position: 0 0; }
+  to { background-position: 40px 0; }
+}
+
+@keyframes progressIndeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+/* Thinking / Typing Animations */
+@keyframes typingDot {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+}
+
+@keyframes thinking {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+}
+
+/* Glow Animations */
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(43, 97, 255, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(43, 97, 255, 0.6), 0 0 30px rgba(43, 97, 255, 0.3); }
+}
+
+@keyframes glowSuccess {
+  0%, 100% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.6), 0 0 30px rgba(34, 197, 94, 0.3); }
+}
+
+/* Wiggle / Shake Animations */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Float Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Stagger Animation Helper Classes */
+@keyframes staggerIn1 { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes staggerIn2 { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes staggerIn3 { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes staggerIn4 { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes staggerIn5 { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Utility Classes for Animations */
+.animate-fade-in { animation: fadeIn 0.3s ease-out; }
+.animate-fade-in-up { animation: fadeInUp 0.4s ease-out; }
+.animate-fade-in-down { animation: fadeInDown 0.4s ease-out; }
+.animate-fade-in-left { animation: fadeInLeft 0.4s ease-out; }
+.animate-fade-in-right { animation: fadeInRight 0.4s ease-out; }
+.animate-scale-in { animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.animate-bounce-in { animation: bounceIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.animate-pulse { animation: pulse 2s ease-in-out infinite; }
+.animate-pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
+.animate-pulse-dot-success { animation: pulseDotSuccess 2s ease-in-out infinite; }
+.animate-pulse-dot-error { animation: pulseDotError 2s ease-in-out infinite; }
+.animate-pulse-dot-warning { animation: pulseDotWarning 2s ease-in-out infinite; }
+.animate-glow { animation: glow 2s ease-in-out infinite; }
+.animate-glow-success { animation: glowSuccess 2s ease-in-out infinite; }
+.animate-wiggle { animation: wiggle 0.4s ease-in-out; }
+.animate-shake { animation: shake 0.5s ease-in-out; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+
+/* Staggered Animation Classes (for sequences) */
+.animate-stagger-1 { animation: staggerIn1 0.3s ease-out 0.05s forwards; opacity: 0; }
+.animate-stagger-2 { animation: staggerIn2 0.3s ease-out 0.1s forwards; opacity: 0; }
+.animate-stagger-3 { animation: staggerIn3 0.3s ease-out 0.15s forwards; opacity: 0; }
+.animate-stagger-4 { animation: staggerIn4 0.3s ease-out 0.2s forwards; opacity: 0; }
+.animate-stagger-5 { animation: staggerIn5 0.3s ease-out 0.25s forwards; opacity: 0; }
+
+/* Shimmer for Skeleton Loading */
+.shimmer {
+  background: linear-gradient(90deg, #27272a 25%, #3f3f46 50%, #27272a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-pulse {
+  animation: skeletonPulse 2s ease-in-out infinite;
+  background: #27272a;
+}
+
+/* Cursor Blink for Typing Effect */
+@keyframes cursorBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.typing-cursor {
+  animation: cursorBlink 1s step-end infinite;
+}
+
+/* Typing Dots Animation */
+.typing-dot-1 { animation: typingDot 1.4s ease-in-out infinite; animation-delay: 0s; }
+.typing-dot-2 { animation: typingDot 1.4s ease-in-out infinite; animation-delay: 0.2s; }
+.typing-dot-3 { animation: typingDot 1.4s ease-in-out infinite; animation-delay: 0.4s; }
+
+/* Transition Utilities */
+.transition-fast { transition: all 0.15s ease-out; }
+.transition-normal { transition: all 0.3s ease-out; }
+.transition-slow { transition: all 0.5s ease-out; }
+
+/* Theme-aware Animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─────────────────────────────────────────
+   THEME — edit this block to retheme the app
+   Values are RGB channels: R G B
+   ───────────────────────────────────────── */
+:root {
+  /* Accent color (used for buttons, progress, highlights) */
+  --accent: 43 97 255;        /* #2B61FF */
+  --accent-dark: 26 80 224;   /* #1A50E0 — darker shade for hover states */
+
+  /* Surface colors */
+  --bg: 9 9 11;               /* zinc-950 — main app background */
+  --surface: 24 24 27;        /* zinc-900 — panels, cards */
+  --surface-raised: 39 39 42; /* zinc-800 — inputs, hover states */
+  --border-color: 63 63 70;   /* zinc-700 — dividers, borders */
+
+  /* Text */
+  --text: 255 255 255;
+  --text-muted: 161 161 170;  /* zinc-400 */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* ── Input area aurora ────────────────────────────────── */
+.input-aurora {
+  position: relative; overflow: hidden;
+  background-image:
+    radial-gradient(1.2px 1.2px at 12% 82%, rgba(170,210,245,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 90%, rgba(150,200,240,0.55) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 38% 86%, rgba(180,215,250,0.65) 0%, transparent 100%),
+    radial-gradient(1px 1px at 52% 92%, rgba(160,205,240,0.5) 0%, transparent 100%),
+    radial-gradient(1.3px 1.3px at 65% 84%, rgba(175,215,245,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 78% 89%, rgba(155,200,240,0.55) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 90% 85%, rgba(170,215,245,0.65) 0%, transparent 100%),
+    radial-gradient(1px 1px at 20% 94%, rgba(160,205,235,0.5) 0%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 45% 96%, rgba(175,210,240,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 72% 93%, rgba(165,210,245,0.5) 0%, transparent 100%),
+    radial-gradient(1.3px 1.3px at 85% 91%, rgba(170,205,240,0.55) 0%, transparent 100%);
+  background-size: 100% 100%;
+}
+.input-aurora::before {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 35%;
+  background: radial-gradient(ellipse 100% 120% at 50% 100%, rgba(50,120,220,0.2) 0%, transparent 70%);
+  animation: twinkle-1 4s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
+.input-aurora {
+  position: relative; overflow: hidden;
+  background-image: none;
+}
+.input-aurora::before {
+  content: ''; position: absolute; bottom: 0; left: 8%; right: 8%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(80,160,240,0.7) 15%, rgba(120,200,255,1) 50%, rgba(80,160,240,0.7) 85%, transparent);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+.input-aurora::after {
+  content: ''; position: absolute; bottom: -4px; left: 8%; right: 8%; height: 40px;
+  background: radial-gradient(ellipse 100% 100% at 50% 100%, rgba(60,140,230,0.18) 0%, transparent 60%);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Input placeholder — no wrap, ellipsis */
+.chat-input::placeholder {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Ink cloud effect removed — now using Canvas */
+@keyframes glow-a { 0%,100%{opacity:0.3} 50%{opacity:0.75} }
+@keyframes glow-b { 0%,100%{opacity:0.6} 35%{opacity:0.15} 70%{opacity:0.8} }
+@keyframes glow-c { 0%,100%{opacity:0.4} 45%{opacity:0.8} 80%{opacity:0.2} }
+@keyframes glow-d { 0%,100%{opacity:0.5} 25%{opacity:0.85} 65%{opacity:0.2} }
+.input-glow {
+  position: absolute; bottom: 0; height: 50px; z-index: 0; pointer-events: none;
+}
+.input-glow:nth-child(1) { left: 5%; width: 25%; background: radial-gradient(ellipse 100% 100% at 50% 100%, rgba(70,170,255,0.6) 0%, transparent 70%); animation: glow-a 3s ease-in-out infinite; }
+.input-glow:nth-child(2) { left: 28%; width: 25%; background: radial-gradient(ellipse 100% 100% at 50% 100%, rgba(50,150,240,0.55) 0%, transparent 70%); animation: glow-b 3.5s ease-in-out infinite; }
+.input-glow:nth-child(3) { left: 52%; width: 25%; background: radial-gradient(ellipse 100% 100% at 50% 100%, rgba(80,190,255,0.6) 0%, transparent 70%); animation: glow-c 4s ease-in-out infinite; }
+.input-glow:nth-child(4) { left: 75%; width: 25%; background: radial-gradient(ellipse 100% 100% at 50% 100%, rgba(60,160,245,0.55) 0%, transparent 70%); animation: glow-d 3.2s ease-in-out infinite; }
+
+/* AI Chat Panel — hide scrollbar */
+.chat-scroll::-webkit-scrollbar { display: none; }
+
+/* Session tabs — close button visible on hover */
+.chat-tab:hover .tab-close-btn { opacity: 1 !important; }
+
+/* Chat header — collapse button visible on hover */
+.chat-header-area:hover .header-collapse-btn { opacity: 1 !important; }
+
+/* Session tabs — hide native scrollbar (custom spring bar used instead) */
+.session-tabs-scroll::-webkit-scrollbar { display: none; }
+
+/* Tab activate — glow spreads from center outward */
+@keyframes glow-spread {
+  0%   { clip-path: inset(0 50% 0 50%); opacity: 0; }
+  30%  { clip-path: inset(0 35% 0 35%); opacity: 0.5; }
+  60%  { clip-path: inset(0 10% 0 10%); opacity: 0.85; }
+  100% { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+
+/* Wave scrollbar animations */
+@keyframes wave-drift {
+  0%, 100% { background-position-x: -100%; }
+  50%      { background-position-x: 100%; }
+}
+@keyframes wave-ripple {
+  0%   { background-position-x: -200%; opacity: 0.3; }
+  40%  { opacity: 0.7; }
+  60%  { opacity: 0.7; }
+  100% { background-position-x: 200%; opacity: 0.3; }
+}
+.chat-tab:not(:hover) .tab-close-btn { opacity: 0 !important; }
+
+/* Frameless window — draggable regions.
+ * Only the sidebar (aside) and title bar (.drag-region) are draggable.
+ * Everything else defaults to no-drag so text selection works everywhere.
+ */
+html, body { -webkit-app-region: no-drag; user-select: text; }
+aside { -webkit-app-region: drag; user-select: none; }
+aside button, aside input, aside a, aside span, aside p { -webkit-app-region: no-drag; user-select: text; }
+.drag-region { -webkit-app-region: drag; pointer-events: none; }
+.no-drag { -webkit-app-region: no-drag; pointer-events: auto; }
+
+/* Drag and drop styling */
+.dropzone-active {
+  border-color: rgb(var(--accent)) !important;
+  background-color: rgb(var(--accent) / 0.1) !important;
+}

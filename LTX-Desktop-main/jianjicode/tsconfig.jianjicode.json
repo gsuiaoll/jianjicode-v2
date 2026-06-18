@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "types": ["node"],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "ignoreDeprecations": "6.0",
+    // 移除所有指向ai目录的路径映射，只保留必要的
+    "paths": {}
+  },
+  "include": ["src/**/*", "ai/tool/video/**/*.ts"],
+  "exclude": ["node_modules", "dist", "test", "**/*.test.ts", "**/*.spec.ts", "ai/agent/**/*", "ai/bun/**/*", "ai/config/**/*", "ai/project/**/*", "ai/provider/**/*", "ai/registry/**/*", "ai/server/**/*", "ai/skill/**/*", "ai/util/**/*"]
+}

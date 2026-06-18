@@ -1,0 +1,4 @@
+minimum-release-age=10080
+audit=true
+save-exact=true
+minimumReleaseAgeExclude[]=marked
