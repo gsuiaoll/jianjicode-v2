@@ -477,6 +477,19 @@ export async function initializeTools(): Promise<void> {
     ])
     console.log(`[ToolRegistry] 已注册: ${VideoRagSearchTool.id}`)
 
+    // ================================================================
+    // G: 猫导知识库（领域方法论 + 知识块，走远程只读 API）
+    // ================================================================
+    const { MaodaoKbTool } = await import("../tool/maodao_kb.js")
+    toolRegistry.register(MaodaoKbTool, [
+      "ai",
+      "knowledge",
+      "copywriting",
+      "retrieval",
+      "search",
+    ])
+    console.log(`[ToolRegistry] 已注册: ${MaodaoKbTool.id}`)
+
     console.log(
       `[ToolRegistry] 工具初始化完成，共注册 ${toolRegistry.getAllTools().length} 个工具`,
     )
