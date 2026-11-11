@@ -490,6 +490,31 @@ export async function initializeTools(): Promise<void> {
     ])
     console.log(`[ToolRegistry] 已注册: ${MaodaoKbTool.id}`)
 
+    // ================================================================
+    // H: 猫导制作计划（主题 + 产品 → 镜头表）
+    // ================================================================
+    const { MaodaoPlanTool } = await import("../tool/maodao_plan.js")
+    toolRegistry.register(MaodaoPlanTool, [
+      "ai",
+      "content",
+      "script",
+      "planning",
+      "storyboard",
+    ])
+    console.log(`[ToolRegistry] 已注册: ${MaodaoPlanTool.id}`)
+
+    // ================================================================
+    // H-2: 猫导配音（镜头旁白 → 本地 mp3 + 时长）
+    // ================================================================
+    const { MaodaoTtsTool } = await import("../tool/maodao_tts.js")
+    toolRegistry.register(MaodaoTtsTool, [
+      "ai",
+      "audio",
+      "tts",
+      "production",
+    ])
+    console.log(`[ToolRegistry] 已注册: ${MaodaoTtsTool.id}`)
+
     console.log(
       `[ToolRegistry] 工具初始化完成，共注册 ${toolRegistry.getAllTools().length} 个工具`,
     )

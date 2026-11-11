@@ -17,6 +17,11 @@
     "token": "",
     "timeoutMs": 12000
   },
+  "maodaoProduction": {
+    "url": "https://wenan.onecat.xin",
+    "token": "",
+    "timeoutMs": 170000
+  },
   "permissions": {
     "defaultAction": "allow",
     "rules": [
